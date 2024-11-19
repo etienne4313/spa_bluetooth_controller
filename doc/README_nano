@@ -1,0 +1,17 @@
+The clone 328 nano has a special boot loader and below is the kernel driver that we need to emulate to serial port
+
+	[  114.559066] usb 1-8: new full-speed USB device number 6 using xhci_hcd
+	[  114.707585] usb 1-8: New USB device found, idVendor=1a86, idProduct=7523, bcdDevice= 2.54
+	[  114.707595] usb 1-8: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+	[  114.707600] usb 1-8: Product: USB2.0-Ser!
+	[  114.739087] usbcore: registered new interface driver usbserial_generic
+	[  114.739118] usbserial: USB Serial support registered for generic
+	[  114.742571] usbcore: registered new interface driver ch341
+	[  114.742612] usbserial: USB Serial support registered for ch341-uart
+	[  114.742651] ch341 1-8:1.0: ch341-uart converter detected
+	[  114.743215] ch341-uart ttyUSB0: break control not supported, using simulated break
+	[  114.743463] usb 1-8: ch341-uart converter now attached to ttyUSB0
+
+The default program speed is 57600
+	-P  /dev/ttyUSB0 -b 57600
+
