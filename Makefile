@@ -1,28 +1,23 @@
 PWD := $(shell pwd)
-PROG := $(shell basename `pwd`)
-include Config.mk
+PROG := $(PWD)/$(shell basename `pwd`)
 
 #
 # Project files
 #
-common_objects := $(patsubst %.c,%.o,$(wildcard $(PWD)/*.c)) $(patsubst %.c,%.o,$(wildcard $(PWD)/arch/$(ARCH)/*.c))
 INCLUDE = $(PWD)
+common_objects := $(patsubst %.c,%.o,$(wildcard $(PWD)/*.c)) $(patsubst %.c,%.o,$(wildcard $(PWD)/arch/$(ARCH)/*.c))
 
-all_objects := $(os_objects) $(common_objects)
+export PWD PROG INCLUDE common_objects
 
-all: $(all_objects)
-	$(CC) -o $(PROG) $(all_objects) $(LDFLAGS)
-	$(OBJCOPY) -O ihex -R .eeprom $(PROG) $(PROG).hex
+all:
+	$(MAKE) -C $(KDIR)
 
 debug:
-	$(OBJDUMP) -D $(PROG) >diss
-	$(OBJDUMP) -x $(PROG) |grep -A6 "Idx Name"
-	$(OBJDUMP) -x $(PROG) |grep " .bss" |grep -v "*" |sort -nk 5  |tail -20
-	$(OBJDUMP) -x $(PROG) |grep " .data" |grep -v "*" |sort -nk 5  |tail -20
+	$(MAKE) -C $(KDIR) debug
 
 clean:
-	rm -f $(all_objects) $(PROG) $(PROG).hex diss
+	$(MAKE) -C $(KDIR) clean
 
 flash:
-	$(FLASH)
+	$(MAKE) -C $(KDIR) flash
 
