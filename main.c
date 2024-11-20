@@ -19,7 +19,7 @@ int debug = 0;
 /******************************************************************************/
 /* RTOS */
 /******************************************************************************/
-static unsigned char management_thread_stack[STACK_SIZE];
+static OS_STK management_thread_stack[STACK_SIZE];
 
 void die(int err, int line)
 {
@@ -78,7 +78,7 @@ int main(void)
 	OSInit();
 
 	/* Low priority Management thread: GUI, gaz pump, watchdog, engine state */
-	OSTaskCreate(management_thread, NULL, (void *)&management_thread_stack[STACK_SIZE - 1], 3);
+	OSTaskCreate(management_thread, NULL, &management_thread_stack[STK_HEAD(STACK_SIZE)], 3);
 
 	/* IRQ are enabled when the first thread is started */
 	OSStart();
