@@ -1,0 +1,11 @@
+#
+# Architecture:
+#
+PLATFORM=avr
+KDIR := $(UCOS_II)/Ports/AVR/Generic/gcc/
+
+#
+# CPU: mega328 OR mega2560 OR mega328_nano
+#
+CPU=mega328_nano
+

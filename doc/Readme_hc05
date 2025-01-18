@@ -1,0 +1,41 @@
+#include<SoftwareSerial.h>
+
+/* Bluetooth HC-05 module needs to be programmed using serial AT command
+ * So here we need to have a USD to serial converter ==? Simply let the nano in reset ( plug reset into GND )a
+ * SET EN to 1 to go in CMD mode
+ * 	SWAP RX/TX
+ * Then Nano RX is USB TX ==> 1K / 1K into HC05 RXD
+ * Then Nano TX is USB RX ==> into HC05 TXD
+ * Command MODE is 38000 from the Adruino Terminal
+ * 	AT+NAME=myname
+ * 	AT+UART=115200,1,0
+ *
+ * RXD on the HC05 always 1K /1K protected.
+ * When programming the NANO the Bluetooth connection can interfere so may need to disconnect
+ *
+ * When communicating with bluetooth module we cannnot open the terminal at the same time.
+ *
+ */
+
+/* 
+ * Below is a simple bitbang UART example where we can used the terminal + talk to the bluetooth side
+ */
+#if 0
+/* Create object named bt of the class SoftwareSerial */ 
+SoftwareSerial bt(2,3); /* (Rx,Tx) */ 
+
+void setup() {
+  bt.begin(115200); /* Define baud rate for software serial communication */
+  Serial.begin(115200);  /* Define baud rate for serial communication */
+}
+
+
+void loop(){
+    if (bt.available()) /* If data is available on serial port */
+    {
+      Serial.write("Data available: ");      /* Print character received on to the serial monitor */
+      Serial.write(bt.read());      /* Print character received on to the serial monitor */
+      Serial.write("\n");      /* Print character received on to the serial monitor */
+    }
+}
+#endif
